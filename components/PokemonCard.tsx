@@ -152,25 +152,7 @@ const PokemonCard: React.FC<Props> = ({ pokemon }) => {
             <Type
               key={index}
               typeName={
-                type.type.name as
-                | "fire"   
-                | "grass"
-                | "water"
-                | "electric"
-                | "poison"
-                | "bug"
-                | "normal"
-                | "flying"
-                | "ground"
-                | "rock"
-                | "ghost" 
-                | "steel" 
-                | "fairy" 
-                | "fighting" 
-                | "psychic" 
-                | "ice" 
-                | "dragon" 
-                | "dark"
+                type.type.name as any
                 
               }
             />

@@ -12,36 +12,36 @@ const Search = ({ search }: { search?: string }) => {
   const [pokemonList, setPokemonList] = useState([]);
   const [isLoading, setIsLoading] = useState(false); // State to track loading state
   const [searched, setSearched] = useState(false); // State to track if search has been initiated
+  const handleSearch = async () => {
+    if (!query) {
+      setPokemonList([]);
+      setSearched(false); // Reset searched state if query is empty
+      return;
+    }
 
-  useEffect(() => {
-    const handleSearch = async () => {
-      if (!query) {
-        setPokemonList([]);
-        setSearched(false); // Reset searched state if query is empty
-        return;
-      }
+    setIsLoading(true); // Start loading
 
-      setIsLoading(true); // Start loading
-
-      // Use setTimeout to simulate loading for 1 second
-      setTimeout(async () => {
-        try {
-          const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=1000`);
-          if (!response.ok) {
-            setPokemonList([]);
-          } else {
-            const data = await response.json();
-            const filteredPokemon = data.results.filter(pokemon => pokemon.name.startsWith(query.toLowerCase()));
-            setPokemonList(filteredPokemon); // Store found Pokémon in array
-          }
-        } catch (error) {
+    // Use setTimeout to simulate loading for 1 second
+    setTimeout(async () => {
+      try {
+        const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=1000`);
+        if (!response.ok) {
           setPokemonList([]);
-        } finally {
-          setIsLoading(false); // End loading
-          setSearched(true); // Set searched state to true after search attempt
+        } else {
+          const data = await response.json();
+          const filteredPokemon = data.results.filter((pokemon:any) => pokemon.name.startsWith(query.toLowerCase()));
+          setPokemonList(filteredPokemon); // Store found Pokémon in array
         }
-      }, 1000); // 1 second delay (1000 milliseconds)
-    };
+      } catch (error) {
+        setPokemonList([]);
+      } finally {
+        setIsLoading(false); // End loading
+        setSearched(true); // Set searched state to true after search attempt
+      }
+    }, 1000); // 1 second delay (1000 milliseconds)
+  };
+  useEffect(() => {
+    
 
     if (!initialRender.current) {
       handleSearch();
@@ -51,13 +51,13 @@ const Search = ({ search }: { search?: string }) => {
     }
   }, [query]);
 
-  const handleInputChange = (e) => {
+  const handleInputChange = (e:any) => {
     setText(e.target.value);
     setPokemonList([]); // Reset pokemonList state when input changes
     setSearched(false); // Reset searched state when input changes
   };
 
-  const handleKeyDown = (e) => {
+  const handleKeyDown = (e:any) => {
     if (e.key === "Enter") {
       // Perform search when Enter key is pressed
       handleSearch();
