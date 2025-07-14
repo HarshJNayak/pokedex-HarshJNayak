@@ -8,20 +8,19 @@ const Search = ({ search }: { search?: string }) => {
   const router = useRouter();
   const initialRender = useRef(true);
   const [text, setText] = useState(search);
-  const [query] = useDebounce(text, 1000); // Adjust debounce delay here
+  const [query] = useDebounce(text, 1000); 
   const [pokemonList, setPokemonList] = useState([]);
-  const [isLoading, setIsLoading] = useState(false); // State to track loading state
-  const [searched, setSearched] = useState(false); // State to track if search has been initiated
+  const [isLoading, setIsLoading] = useState(false); 
+  const [searched, setSearched] = useState(false); 
   const handleSearch = async () => {
     if (!query) {
       setPokemonList([]);
-      setSearched(false); // Reset searched state if query is empty
+      setSearched(false); 
       return;
     }
 
-    setIsLoading(true); // Start loading
+    setIsLoading(true); 
 
-    // Use setTimeout to simulate loading for 1 second
     setTimeout(async () => {
       try {
         const response = await fetch(`https://pokeapi.co/api/v2/pokemon?limit=1000`);
@@ -35,17 +34,17 @@ const Search = ({ search }: { search?: string }) => {
       } catch (error) {
         setPokemonList([]);
       } finally {
-        setIsLoading(false); // End loading
-        setSearched(true); // Set searched state to true after search attempt
+        setIsLoading(false); 
+        setSearched(true);
       }
-    }, 1000); // 1 second delay (1000 milliseconds)
+    }, 1000); 
   };
   useEffect(() => {
     
 
     if (!initialRender.current) {
       handleSearch();
-      router.push(`?search=${query}`); // Push route with query param
+      router.push(`?search=${query}`); 
     } else {
       initialRender.current = false;
     }
@@ -53,15 +52,15 @@ const Search = ({ search }: { search?: string }) => {
 
   const handleInputChange = (e:any) => {
     setText(e.target.value);
-    setPokemonList([]); // Reset pokemonList state when input changes
-    setSearched(false); // Reset searched state when input changes
+    setPokemonList([]); 
+    setSearched(false); 
   };
 
   const handleKeyDown = (e:any) => {
     if (e.key === "Enter") {
-      // Perform search when Enter key is pressed
+      
       handleSearch();
-      router.push(`?search=${query}`); // Push route with query param
+      router.push(`?search=${query}`); 
     }
   };
 
